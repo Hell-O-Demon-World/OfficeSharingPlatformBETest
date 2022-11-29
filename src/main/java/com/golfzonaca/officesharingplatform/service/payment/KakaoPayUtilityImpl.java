@@ -68,9 +68,11 @@ public class KakaoPayUtilityImpl implements KakaoPayUtility {
         LocalDateTime localDateTime = kakaoPayApproval.getApproved_at();
         LocalDate payDate = this.toLocalDate(localDateTime);
         LocalTime payTime = this.toLocalTime(localDateTime);
+
         long payPrice = kakaoPayApproval.getAmount().getTotal();
-        PayStatus payStatus = checkPayStatus(reservation);
         long payMileage = kakaoPayApproval.getAmount().getPoint();
+
+        PayStatus payStatus = checkPayStatus(reservation);
 
         PayType payType = PayType.FULLPAYMENT;
 
@@ -160,5 +162,4 @@ public class KakaoPayUtilityImpl implements KakaoPayUtility {
         }
         return null;
     }
-
 }

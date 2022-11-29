@@ -3,6 +3,7 @@ package com.golfzonaca.officesharingplatform.service.payment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golfzonaca.officesharingplatform.domain.*;
 import com.golfzonaca.officesharingplatform.domain.payment.KakaoPayApproval;
+import com.golfzonaca.officesharingplatform.domain.payment.KakaoPayCancel;
 import com.golfzonaca.officesharingplatform.domain.payment.KakaoPayReady;
 import com.golfzonaca.officesharingplatform.repository.payment.PaymentRepository;
 import com.golfzonaca.officesharingplatform.repository.reservation.ReservationRepository;
@@ -23,10 +24,13 @@ public class SpringJpaKakaoPayService implements KakaoPayService {
 
     private static final String HOST = "https://kapi.kakao.com/";
     private static final HttpHeaders httpheaders = new HttpHeaders();
+
     private KakaoPayReady kakaoPayReady = new KakaoPayReady();
+
+    private final KakaoPayUtility kakaoPayUtility;
+
     private final ReservationRepository reservationRepository;
     private final PaymentRepository paymentRepository;
-    private final KakaoPayUtility kakaoPayUtility;
 
     @Override
     public String kakaoPayReady(long reservationId) {
@@ -46,7 +50,6 @@ public class SpringJpaKakaoPayService implements KakaoPayService {
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(kakaoPayUtility.multiValueMapConverter(new ObjectMapper(), requestBodyReadyConverter), httpheaders);
 
         kakaoPayReady = kakaoPayUtility.kakaoPayGetTid(HOST, body);
-//        return kakaoPayUtility.kakaoPayReadyToEntity(HOST, body);
         return kakaoPayReady.getNext_redirect_pc_url();
     }
 
@@ -93,6 +96,7 @@ public class SpringJpaKakaoPayService implements KakaoPayService {
         }
         return null;
     }
+
 
     private HttpEntity<MultiValueMap<String, String>> getBody(Reservation reservation, String pg_token) {
         RoomKind roomKind = reservation.getRoom().getRoomKind();

@@ -17,7 +17,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-interface KakaoPayUtility {
+interface
+KakaoPayUtility {
 
     void accumulationMileage(User user, long payPrice);
 
