@@ -1,4 +1,4 @@
-package com.golfzonaca.officesharingplatform.repository.mileage.springdatajpa;
+package com.golfzonaca.officesharingplatform.repository.mileage;
 
 import com.golfzonaca.officesharingplatform.domain.Mileage;
 import org.springframework.data.jpa.repository.JpaRepository;

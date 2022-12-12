@@ -1,10 +1,8 @@
 package com.golfzonaca.officesharingplatform.service.auth;
 
 import com.golfzonaca.officesharingplatform.domain.Mileage;
-import com.golfzonaca.officesharingplatform.domain.MileageUpdate;
 import com.golfzonaca.officesharingplatform.domain.Role;
 import com.golfzonaca.officesharingplatform.domain.User;
-import com.golfzonaca.officesharingplatform.domain.type.MileageStatusType;
 import com.golfzonaca.officesharingplatform.domain.type.RoleType;
 import com.golfzonaca.officesharingplatform.repository.role.RoleRepository;
 import com.golfzonaca.officesharingplatform.repository.user.UserRepository;

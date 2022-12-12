@@ -60,7 +60,7 @@ public class KakaoPayUtility {
 
     public long calculateMileage(Integer totalAmount, String payWay, String payType) {
 
-        if (payWay.equals(PayWay.PREPAYMENT.toString()) && payType.equals(PayType.FULL_PAYMENT.toString())) {
+        if (payWay.equals(PayWay.PREPAYMENT.toString()) && payType.equals(PayType.FULLPAYMENT.toString())) {
             return (long) (totalAmount * 0.05);
         } else {
             return 0;
@@ -101,6 +101,7 @@ public class KakaoPayUtility {
     }
 
     public KakaoPayApprovalRequest makeRequestBodyForApprove(Payment payment, String pgToken) {
+
 
         return KakaoPayApprovalRequest.builder()
                 .cid(CompanyId.KAKAOPAYCID)

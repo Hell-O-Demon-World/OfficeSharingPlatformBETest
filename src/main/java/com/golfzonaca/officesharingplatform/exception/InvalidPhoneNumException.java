@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.NoSuchElementException;
 
-@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "error.user")
+@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "error.room")
 public class InvalidPhoneNumException extends NoSuchElementException {
     public InvalidPhoneNumException() {
     }

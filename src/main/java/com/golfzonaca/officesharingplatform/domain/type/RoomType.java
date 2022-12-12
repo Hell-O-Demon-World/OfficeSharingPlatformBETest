@@ -12,7 +12,7 @@ public enum RoomType {
     }
 
     public String getDescription() {
-        return description.toUpperCase();
+        return description;
     }
 
     public static RoomType getRoomType(String beforeRoomType) {
