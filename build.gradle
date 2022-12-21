@@ -25,13 +25,18 @@ allprojects {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
 //    Jasypt
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
 //  Spring Cache 추가
     implementation 'org.springframework.boot:spring-boot-starter-cache'
 
 //  Caffeine Cache 추가
     implementation 'com.github.ben-manes.caffeine:caffeine'
+
+//  hibernate-ehcache 추가
+    implementation 'org.hibernate:hibernate-ehcache'
 
 //  Mail 추가
     implementation 'org.springframework.boot:spring-boot-starter-mail'

@@ -1,19 +1,47 @@
 package com.golfzonaca.officesharingplatform.config;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
-import org.springframework.cache.CacheManager;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.DiskStoreConfiguration;
+import net.sf.ehcache.config.PersistenceConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableCaching
 public class CacheConfig {
 
+    private net.sf.ehcache.CacheManager createCacheManager() {
+        net.sf.ehcache.config.Configuration configuration = new net.sf.ehcache.config.Configuration();
+        configuration.diskStore(new DiskStoreConfiguration().path("java.io.tmpdir"));
+        return net.sf.ehcache.CacheManager.create(configuration);
+    }
+
     @Bean
+    public EhCacheCacheManager ehCacheCacheManager() {
+
+        net.sf.ehcache.CacheManager manager = this.createCacheManager();
+
+        Cache getMenuCache = new Cache(new CacheConfiguration()
+                .maxEntriesLocalHeap(1000)
+                .maxEntriesLocalDisk(10000)
+                .eternal(false)
+                .timeToIdleSeconds(1800)
+                .timeToLiveSeconds(1800)
+                .memoryStoreEvictionPolicy("LFU")
+                .transactionalMode(CacheConfiguration.TransactionalMode.OFF)
+                .persistence(new PersistenceConfiguration().strategy(PersistenceConfiguration.Strategy.LOCALTEMPSWAP))
+                .name("getMenu")
+        );
+        manager.addCache(getMenuCache);
+
+        return new EhCacheCacheManager(manager);
+    }
+
+
+    /*@Bean
     public Caffeine caffeineConfig() {
         return Caffeine
                 .newBuilder()
@@ -27,7 +55,7 @@ public class CacheConfig {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(caffeine);
         return cacheManager;
-    }
+    }*/
 
 // 상기 : 하나의 설정을 사용
 // 하기 : 캐시별로 각각 설정

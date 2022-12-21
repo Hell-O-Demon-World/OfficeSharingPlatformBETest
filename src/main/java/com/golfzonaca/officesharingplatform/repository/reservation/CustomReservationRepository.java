@@ -7,8 +7,6 @@ import com.golfzonaca.officesharingplatform.domain.User;
 import com.golfzonaca.officesharingplatform.domain.type.RoomType;
 import com.golfzonaca.officesharingplatform.exception.NonExistedReservationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +22,7 @@ public class CustomReservationRepository implements ReservationRepository {
     private final SpringDataJpaReservationRepository jpaReservationRepository;
     private final QueryReservationRepository queryReservationRepository;
 
-    @CacheEvict(cacheNames = {"resDataByPlaceAndTypeAndDate", "resAllDataByPlaceAndTypeAndDate"}, allEntries = true)
+    //    @CacheEvict(cacheNames = {"resDataByPlaceAndTypeAndDate", "resAllDataByPlaceAndTypeAndDate"}, allEntries = true)
     @Override
     public Reservation save(Reservation reservation) {
         return jpaReservationRepository.save(reservation);
@@ -48,8 +46,8 @@ public class CustomReservationRepository implements ReservationRepository {
                 .resEndDate(resEndDate)
                 .build());
     }
-    
-    @CacheEvict(cacheNames = {"resDataByPlaceAndTypeAndDate", "resAllDataByPlaceAndTypeAndDate"}, allEntries = true)
+
+    //    @CacheEvict(cacheNames = {"resDataByPlaceAndTypeAndDate", "resAllDataByPlaceAndTypeAndDate"}, allEntries = true)
     @Override
     public void delete(Reservation reservation) {
         jpaReservationRepository.delete(reservation);
@@ -70,13 +68,13 @@ public class CustomReservationRepository implements ReservationRepository {
         return queryReservationRepository.findResByRoomKindAndDateTime(selectedType, startDate, startTime, endDate, endTime);
     }
 
-    @Cacheable(cacheNames = "resAllDataByPlaceAndTypeAndDate", sync = true, key = "#placeId+'&'+#roomType+'&'+#date")
+    //    @Cacheable(cacheNames = "resAllDataByPlaceAndTypeAndDate", sync = true, key = "#placeId+'&'+#roomType+'&'+#date")
     @Override
     public List<Reservation> findAllByPlaceIdAndRoomTypeAndDate(Long placeId, RoomType roomType, LocalDate date) {
         return queryReservationRepository.findAllByPlaceIdAndRoomTypeAndDate(placeId, roomType, date);
     }
 
-    @Cacheable(cacheNames = "resDataByPlaceAndTypeAndDate", sync = true, key = "#placeId+'&'+#roomType+'&'+#date")
+    //    @Cacheable(cacheNames = "resDataByPlaceAndTypeAndDate", sync = true, key = "#placeId+'&'+#roomType+'&'+#date")
     @Override
     public Optional<Reservation> findByPlaceIdAndRoomTypeAndDate(Long placeId, RoomType roomType, LocalDate date) {
         return queryReservationRepository.findFirstByPlaceIdAndRoomTypeAndDate(placeId, roomType, date);
