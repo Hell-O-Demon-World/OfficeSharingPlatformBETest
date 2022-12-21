@@ -1,12 +1,12 @@
 package com.golfzonaca.officesharingplatform.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,8 +16,6 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Place {
 
     @Id
@@ -55,7 +53,7 @@ public class Place {
     private String placeAddInfo;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     //양방향 매핑
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -70,16 +68,17 @@ public class Place {
     @OneToMany(mappedBy = "place")
     private List<RoomImage> roomImages = new LinkedList<>();
 
-    public Place(Company company, RatePoint ratePoint, String placeName, String description, String openDays, LocalTime placeStart, LocalTime placeEnd, String placeAddInfo, Address address) {
+    @Builder
+    public Place(Company company, RatePoint ratePoint, Address address, String placeName, String description, String openDays, LocalTime placeStart, LocalTime placeEnd, String placeAddInfo) {
         this.company = company;
         this.ratePoint = ratePoint;
+        this.address = address;
         this.placeName = placeName;
         this.description = description;
         this.openDays = openDays;
         this.placeStart = placeStart;
         this.placeEnd = placeEnd;
         this.placeAddInfo = placeAddInfo;
-        this.address = address;
     }
 
     public void updateAddress(Address address) {

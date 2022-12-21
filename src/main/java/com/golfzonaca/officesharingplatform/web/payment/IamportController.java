@@ -28,7 +28,8 @@ public class IamportController {
     @PostMapping("/nicepay")
     public String nicePay(@TokenUserId Long userId, @RequestBody NicePayRequestForm nicePayRequestForm) throws IamportResponseException, IOException {
         paymentValidation.validationPayment(userId, nicePayRequestForm);
-        return iamportService.requestNicePay(userId, nicePayRequestForm);
+        iamportService.requestNicePay(userId, nicePayRequestForm);
+        return String.valueOf(nicePayRequestForm.getReservationId());
     }
 
     @PostMapping("/nicepaycancel")

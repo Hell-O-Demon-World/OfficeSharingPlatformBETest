@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class MileageUpdate {
     private MileageStatusType statusType;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     //양방향 매핑
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

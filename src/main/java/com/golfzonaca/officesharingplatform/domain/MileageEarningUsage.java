@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Cacheable
@@ -31,7 +32,7 @@ public class MileageEarningUsage {
     private LocalDateTime expireDate;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @Builder
     public MileageEarningUsage(MileageTransactionUsage mileageTransactionUsage, MileageUpdate mileageUpdate, Long currentPoint, LocalDateTime updateDate, LocalDateTime expireDate) {

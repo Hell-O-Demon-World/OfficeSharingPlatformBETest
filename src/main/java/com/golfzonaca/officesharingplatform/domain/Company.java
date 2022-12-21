@@ -1,12 +1,12 @@
 package com.golfzonaca.officesharingplatform.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,8 +14,6 @@ import java.util.List;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
-@Builder
-@AllArgsConstructor
 @Table(uniqueConstraints = {@UniqueConstraint(name = "Company", columnNames = {"COMPANY_LOGINID", "COMPANY_NAME", "COMPANY_TEL", "COMPANY_REGNUM"})})
 @NoArgsConstructor
 public class Company {
@@ -47,12 +45,13 @@ public class Company {
     private Address address;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "company")
     private List<Place> placeList = new LinkedList<>();
 
+    @Builder
     public Company(String loginId, String pw, String name, String tel, String regNum, String repName, Address address) {
         this.loginId = loginId;
         Pw = pw;

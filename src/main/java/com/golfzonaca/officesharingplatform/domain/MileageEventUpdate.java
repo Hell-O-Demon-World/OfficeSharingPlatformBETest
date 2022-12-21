@@ -3,6 +3,7 @@ package com.golfzonaca.officesharingplatform.domain;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -19,10 +20,10 @@ public class MileageEventUpdate {
 
     @Column(name = "UPDATE_POINT")
     private Long increasePoint;
-    
+
     @Column(name = "INCREASE_REASON")
     private String increaseReason;
 
     @Version
-    private Long version;
+    private Timestamp version;
 }

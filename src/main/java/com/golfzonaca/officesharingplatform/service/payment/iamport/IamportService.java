@@ -78,9 +78,9 @@ public class IamportService {
     public IamportResponse<Payment> requestNicePayOnetime(Long userId, NicePayRequestForm nicePayRequestForm) throws IamportResponseException, IOException {
 
         IamportClient iamportClient = new IamportClient(apiKey, apiSecret);
-        Reservation findReservation = reservationRepository.findById(nicePayRequestForm.getReservationId());
+        Reservation reservation = reservationRepository.findById(nicePayRequestForm.getReservationId());
 
-        int totalAmount = calculateTotalAmount(findReservation,
+        int totalAmount = calculateTotalAmount(reservation,
                 nicePayRequestForm.getPayWay(),
                 nicePayRequestForm.getPayType(),
                 nicePayRequestForm.getPayMileage());
@@ -95,8 +95,9 @@ public class IamportService {
         OnetimePaymentData onetimePaymentData = new OnetimePaymentData(merchantUid, new BigDecimal(totalAmount), cardInfo);
         onetimePaymentData.setPg("nice");
 
-        com.golfzonaca.officesharingplatform.domain.Payment payment = paymentRepository.save(processingPaymentData(findReservation, nicePayRequestForm.getPayWay(), nicePayRequestForm.getPayType(), nicePayRequestForm.getPayMileage(), merchantUid));
-
+        com.golfzonaca.officesharingplatform.domain.Payment payment = paymentRepository.save(processingPaymentData(reservation, nicePayRequestForm.getPayWay(), nicePayRequestForm.getPayType(), nicePayRequestForm.getPayMileage(), merchantUid));
+        reservation.getPaymentList().add(payment);
+        
         Mileage userMileage = payment.getReservation().getUser().getMileage();
         long userMileagePoint = userMileage.getPoint();
         if (payment.getPayMileage() > 0) {
@@ -140,12 +141,12 @@ public class IamportService {
         ScheduleEntry scheduleEntry = new ScheduleEntry(merchantUid, scheduleAt, BigDecimal.valueOf(payPrice));
         scheduleEntry.setName("OSP " + reservation.getRoom().getRoomKind().getRoomType().getDescription() + " 후불 결제");
         scheduleData.addSchedule(scheduleEntry);
-        com.golfzonaca.officesharingplatform.domain.Payment payment = processingPaymentData(reservation, nicePayRequestForm.getPayWay(), nicePayRequestForm.getPayType(), nicePayRequestForm.getPayMileage(), merchantUid);
         IamportResponse<List<Schedule>> listIamportResponse = iamportClient.subscribeSchedule(scheduleData);
         if (listIamportResponse.getCode() != 0) {
             throw new PayFailureException(listIamportResponse.getMessage());
         }
-        paymentRepository.save(payment);
+        com.golfzonaca.officesharingplatform.domain.Payment payment = paymentRepository.save(processingPaymentData(reservation, nicePayRequestForm.getPayWay(), nicePayRequestForm.getPayType(), nicePayRequestForm.getPayMileage(), merchantUid));
+        reservation.getPaymentList().add(payment);
         return listIamportResponse;
     }
 

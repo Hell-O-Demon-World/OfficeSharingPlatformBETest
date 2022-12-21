@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Rating {
     private LocalDateTime ratingTime;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "rating")

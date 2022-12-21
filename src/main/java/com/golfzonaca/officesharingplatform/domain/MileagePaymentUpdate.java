@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -33,7 +34,7 @@ public class MileagePaymentUpdate {
     private Payment payment;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @Builder
     public MileagePaymentUpdate(Long updatePoint, MileagePaymentReason paymentReason, MileageUpdate mileageUpdate, Payment payment) {

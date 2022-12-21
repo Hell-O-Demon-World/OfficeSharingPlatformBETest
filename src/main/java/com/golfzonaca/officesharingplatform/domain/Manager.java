@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -39,7 +40,7 @@ public class Manager {
     private Role role;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     public Manager(String name, String email, String password, String phoneNumber, Role role) {
         this.name = name;

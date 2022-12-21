@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -27,7 +28,7 @@ public class EmailAuthenticationCode {
     private Boolean expiredStatus;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     public void toEntity(String email, String code, Boolean status) {
         this.email = email;

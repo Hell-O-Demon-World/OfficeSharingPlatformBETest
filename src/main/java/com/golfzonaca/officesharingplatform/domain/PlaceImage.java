@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -32,7 +33,7 @@ public class PlaceImage {
     private Place place;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     public PlaceImage(String uploadFileName, String storeFileName, String savedPath, Place place) {
         this.uploadFileName = uploadFileName;

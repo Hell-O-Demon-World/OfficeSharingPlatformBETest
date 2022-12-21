@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Cacheable
@@ -34,7 +35,7 @@ public class Comment {
     private LocalDateTime dateTime;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @Builder
     public Comment(Rating rating, String text, User writer, LocalDateTime dateTime) {

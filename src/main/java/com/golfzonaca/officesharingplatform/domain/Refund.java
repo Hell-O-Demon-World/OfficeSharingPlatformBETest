@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Cacheable
@@ -43,7 +44,7 @@ public class Refund {
     private boolean refundStatus;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     public void updateRefundStatus(boolean refundStatus) {
         this.refundStatus = refundStatus;

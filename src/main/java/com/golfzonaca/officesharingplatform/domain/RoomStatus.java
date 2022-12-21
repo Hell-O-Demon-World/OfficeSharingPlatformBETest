@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -27,7 +28,7 @@ public class RoomStatus {
     private Boolean status;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @Builder
     public RoomStatus(Room room, Boolean status) {

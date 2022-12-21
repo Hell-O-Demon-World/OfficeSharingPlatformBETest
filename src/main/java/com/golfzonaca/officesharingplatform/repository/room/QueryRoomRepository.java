@@ -100,6 +100,7 @@ public class QueryRoomRepository {
                 .from(room)
                 .innerJoin(room.roomKind)
                 .where(eqPlaceId(placeId), eqRoomType(roomType))
+                .setHint("org.hibernate.cacheable", true)
                 .fetch();
     }
 

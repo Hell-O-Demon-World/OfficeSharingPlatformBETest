@@ -9,6 +9,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -30,7 +31,7 @@ public class RefreshToken {
     private User user;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     public RefreshToken toEntity(Long id, Long userId, String encodedToken) {
         User entityUser = User.builder().id(userId).build();

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -27,7 +28,7 @@ public class Answer {
     private String answer;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @Builder
     public Answer(Inquiry inquiry, String answer) {

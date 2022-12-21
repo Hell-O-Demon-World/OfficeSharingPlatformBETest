@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -31,7 +32,7 @@ public class Address {
     private Double latitude;
 
     @Version
-    private Long version;
+    private Timestamp version;
 
     @Builder
     public Address(String address, String postalCode, Double longitude, Double latitude) {
