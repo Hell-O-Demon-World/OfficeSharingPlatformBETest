@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "MILEAGE_EARNING_USAGE_HISTORY")
 @Getter
@@ -26,6 +29,10 @@ public class MileageEarningUsage {
     private LocalDateTime updateDate;
     @Column(name = "EXPIRE_DATE", nullable = false)
     private LocalDateTime expireDate;
+
+    @Version
+    private Long version;
+
     @Builder
     public MileageEarningUsage(MileageTransactionUsage mileageTransactionUsage, MileageUpdate mileageUpdate, Long currentPoint, LocalDateTime updateDate, LocalDateTime expireDate) {
         this.mileageUpdate = mileageUpdate;

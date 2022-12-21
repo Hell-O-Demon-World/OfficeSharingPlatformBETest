@@ -2,9 +2,12 @@ package com.golfzonaca.officesharingplatform.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @Table(name = "PLACEIMAGE")
@@ -27,6 +30,9 @@ public class PlaceImage {
     @ManyToOne
     @JoinColumn(name = "PLACE_ID")
     private Place place;
+
+    @Version
+    private Long version;
 
     public PlaceImage(String uploadFileName, String storeFileName, String savedPath, Place place) {
         this.uploadFileName = uploadFileName;

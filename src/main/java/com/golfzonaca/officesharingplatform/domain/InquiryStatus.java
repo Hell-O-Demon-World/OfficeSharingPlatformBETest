@@ -4,9 +4,12 @@ package com.golfzonaca.officesharingplatform.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @Table(name = "inquirystatus")
@@ -23,6 +26,9 @@ public class InquiryStatus {
 
     @Column(name = "STATUS", nullable = false)
     private Boolean status;
+
+    @Version
+    private Long version;
 
     @Builder
     public InquiryStatus(Inquiry inquiry, Boolean status) {

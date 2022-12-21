@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "mileage_payment_update")
 @NoArgsConstructor
@@ -28,6 +31,10 @@ public class MileagePaymentUpdate {
     @OneToOne
     @JoinColumn(name = "PAYMENT_ID")
     private Payment payment;
+
+    @Version
+    private Long version;
+
     @Builder
     public MileagePaymentUpdate(Long updatePoint, MileagePaymentReason paymentReason, MileageUpdate mileageUpdate, Payment payment) {
         this.updatePoint = updatePoint;

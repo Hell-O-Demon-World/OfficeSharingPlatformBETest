@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @NoArgsConstructor
@@ -51,13 +54,19 @@ public class Place {
     @Column(name = "PLACE_ADDINFO", nullable = false)
     private String placeAddInfo;
 
+    @Version
+    private Long version;
+
     //양방향 매핑
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "place")
     private List<Room> rooms = new LinkedList<>();
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "place")
     private List<PlaceImage> placeImages = new LinkedList<>();
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "place")
     private List<RoomImage> roomImages = new LinkedList<>();
 

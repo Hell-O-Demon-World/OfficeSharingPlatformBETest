@@ -4,8 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Builder
 @Getter
 @Entity
@@ -21,6 +25,9 @@ public class EmailAuthenticationCode {
     private String verifyingCode;
     @Column(name = "EXPIRATION", nullable = false)
     private Boolean expiredStatus;
+
+    @Version
+    private Long version;
 
     public void toEntity(String email, String code, Boolean status) {
         this.email = email;

@@ -4,11 +4,13 @@ package com.golfzonaca.officesharingplatform.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @NoArgsConstructor
@@ -31,9 +33,14 @@ public class Inquiry {
     @Column(name = "WRITETIME", nullable = false)
     private LocalDateTime dateTime;
 
+    @Version
+    private Long version;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToOne(mappedBy = "inquiry")
     private Answer answer;
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToOne(mappedBy = "inquiry")
     private InquiryStatus inquiryStatus;
 

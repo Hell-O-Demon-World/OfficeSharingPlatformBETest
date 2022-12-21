@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "mileage_update_history")
 @NoArgsConstructor
@@ -31,7 +34,12 @@ public class MileageUpdate {
     @Column(name = "STATUS_TYPE", nullable = false)
     @Enumerated(EnumType.STRING)
     private MileageStatusType statusType;
+
+    @Version
+    private Long version;
+
     //양방향 매핑
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "mileageUpdate")
     private List<MileageEarningUsage> mileageExpiredUpdateList = new LinkedList<>();
 

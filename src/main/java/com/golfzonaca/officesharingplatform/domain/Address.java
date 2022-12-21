@@ -30,6 +30,9 @@ public class Address {
     @Column(name = "latitude")
     private Double latitude;
 
+    @Version
+    private Long version;
+
     @Builder
     public Address(String address, String postalCode, Double longitude, Double latitude) {
         this.address = address;

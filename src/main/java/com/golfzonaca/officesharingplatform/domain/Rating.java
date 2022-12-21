@@ -3,12 +3,15 @@ package com.golfzonaca.officesharingplatform.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @NoArgsConstructor
@@ -30,7 +33,11 @@ public class Rating {
 
     @Column(name = "RATING_TIME", nullable = false)
     private LocalDateTime ratingTime;
-    
+
+    @Version
+    private Long version;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "rating")
     private List<Comment> commentList = new LinkedList<>();
 

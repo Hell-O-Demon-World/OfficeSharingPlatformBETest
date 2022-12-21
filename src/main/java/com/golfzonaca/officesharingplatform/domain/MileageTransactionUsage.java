@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "mileage_transaction_usage_history")
 @NoArgsConstructor
@@ -24,8 +27,12 @@ public class MileageTransactionUsage {
     private MileageEarningUsage mileageEarningUsage;
     @Column(name = "USED_POINT")
     private long usedPoint;
+
+    @Version
+    private Long version;
+
     @Builder
-    public MileageTransactionUsage(MileagePaymentUpdate mileagePaymentUpdate, MileageEarningUsage mileageEarningUsage , long usedPoint) {
+    public MileageTransactionUsage(MileagePaymentUpdate mileagePaymentUpdate, MileageEarningUsage mileageEarningUsage, long usedPoint) {
         this.mileagePaymentUpdate = mileagePaymentUpdate;
         this.usedPoint = usedPoint;
         this.mileageEarningUsage = mileageEarningUsage;

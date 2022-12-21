@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @Table(name = "REFUND")
@@ -38,6 +41,9 @@ public class Refund {
 
     @Column(name = "REFUND_STATUS", nullable = false)
     private boolean refundStatus;
+
+    @Version
+    private Long version;
 
     public void updateRefundStatus(boolean refundStatus) {
         this.refundStatus = refundStatus;

@@ -3,10 +3,13 @@ package com.golfzonaca.officesharingplatform.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @NoArgsConstructor
@@ -29,6 +32,9 @@ public class Comment {
 
     @Column(name = "COMMENT_DATETIME", nullable = false)
     private LocalDateTime dateTime;
+
+    @Version
+    private Long version;
 
     @Builder
     public Comment(Rating rating, String text, User writer, LocalDateTime dateTime) {

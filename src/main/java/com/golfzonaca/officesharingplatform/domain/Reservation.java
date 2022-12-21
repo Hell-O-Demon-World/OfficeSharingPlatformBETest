@@ -61,7 +61,7 @@ public class Reservation {
     private FixStatus fixStatus;
 
     @Version
-    private Long Version;
+    private Long version;
 
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToOne(mappedBy = "reservation")

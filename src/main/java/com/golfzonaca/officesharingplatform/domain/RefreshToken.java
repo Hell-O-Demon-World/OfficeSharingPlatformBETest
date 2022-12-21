@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +28,9 @@ public class RefreshToken {
     @JoinColumn(name = "USER_ID", unique = true, nullable = false)
     @NotFound(action = NotFoundAction.IGNORE)
     private User user;
+
+    @Version
+    private Long version;
 
     public RefreshToken toEntity(Long id, Long userId, String encodedToken) {
         User entityUser = User.builder().id(userId).build();

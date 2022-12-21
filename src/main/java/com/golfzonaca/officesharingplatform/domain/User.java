@@ -4,12 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Getter
 @Entity
 @Table(name = "USER", uniqueConstraints = {@UniqueConstraint(name = "USER", columnNames = {"USER_MAIL", "USER_TEL", "MILEAGE_ID"})})
@@ -20,32 +23,48 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "USER_NAME", nullable = false)
     private String username;
+
     @Column(name = "USER_MAIL", nullable = false, unique = true)
     private String email;
+
     @Column(name = "USER_PW", nullable = false)
     private String password;
+
     @Column(name = "USER_TEL", nullable = false)
     private String phoneNumber;
+
     @Column(name = "USER_JOB", nullable = false)
     private String job;
+
     @Column(name = "PREFER_TYPE", nullable = false)
     private String userPlace;
+
     @Column(name = "JOIN_DATE", nullable = false)
     private LocalDateTime joinDate;
+
     @OneToOne
     @JoinColumn(name = "MILEAGE_ID")
     private Mileage mileage;
+
     @ManyToOne
     @JoinColumn(name = "ROLE_ID")
     private Role role;
+
+    @Version
+    private Long version;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservationList = new LinkedList<>();
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "writer")
     private List<Comment> commentList = new LinkedList<>();
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "user")
     private List<Inquiry> inquiryList = new LinkedList<>();
 
