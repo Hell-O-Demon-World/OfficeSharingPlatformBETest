@@ -54,6 +54,7 @@ public class QueryReservationRepository {
                 .innerJoin(reservation.room.place)
                 .innerJoin(reservation.room.roomKind)
                 .where(reservation.room.place.id.eq(placeId), reservation.fixStatus.eq(FixStatus.FIXED), eqRoomType(optionalRoomType), betweenStartDateAndEndDate(optionalLocalDate))
+                .setHint("org.hibernate.cacheable", true)
                 .fetchFirst());
     }
 
@@ -120,6 +121,7 @@ public class QueryReservationRepository {
                 .innerJoin(reservation.room.place)
                 .innerJoin(reservation.room.roomKind)
                 .where(reservation.room.place.id.eq(placeId), reservation.fixStatus.ne(FixStatus.CANCELED), eqRoomType(optionalRoomType), betweenStartDateAndEndDate(optionalLocalDate))
+                .setHint("org.hibernate.cacheable", true)
                 .fetch();
     }
 

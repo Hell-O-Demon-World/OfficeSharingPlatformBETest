@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,9 +18,11 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Reservation {
 
     @Id
@@ -57,9 +60,14 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private FixStatus fixStatus;
 
+    @Version
+    private Long Version;
+
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToOne(mappedBy = "reservation")
     private Rating rating;
 
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "reservation")
     private List<Payment> paymentList = new LinkedList<>();
 
